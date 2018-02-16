@@ -1,0 +1,7 @@
+database:
+    adapter: mysql
+    connection:
+        host: localhost
+        name: journalist
+        user: journalistuser
+        password: pass
