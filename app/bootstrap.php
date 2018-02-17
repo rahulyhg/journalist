@@ -19,7 +19,7 @@ require ROOT_PATH . '/vendor/autoload.php';
  * Include Core pack
  */
 
-require __DIR__ . '/includes/core.php';
+require __DIR__ . '/includes/JN_Core.php';
 
 
 /**
@@ -27,3 +27,9 @@ require __DIR__ . '/includes/core.php';
  */
 
 $JN_Core = new JN_Core();
+
+$JN_Core->getPageData();
+
+$JN_Core->resolveTemplate();
+
+echo $JN_Core->getContent();

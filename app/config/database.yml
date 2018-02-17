@@ -1,7 +1,7 @@
 database:
-    adapter: mysql
-    connection:
-        host: localhost
-        name: journalist
-        user: journalistuser
-        password: pass
+    driver: pdo_mysql
+    host: localhost
+    dbname: journalist
+    user: root
+    password: 7b65kFOkCm
+    charset: utf8
