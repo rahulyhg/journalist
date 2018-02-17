@@ -52,6 +52,10 @@ class JN_Core {
 
 	private $page;
 
+	private $post;
+
+	private $pageTemplate = 'index';
+
 	/**
 	 * JN_Core constructor.
 	 */
@@ -90,11 +94,43 @@ class JN_Core {
 		$this->settings = new JN_Settings($options);
 	}
 
-	public function getPageData() {
+	/**
+	 * Get Page data
+	 */
 
-		$page = $this->database->em->getRepository(Post::class)->find($this->settings->get('homepage'));
+	public function getPostData() {
 
-		$this->page = $page;
+		$postRepository = $this->database->em->getRepository(Post::class);
+
+		if($this->url->getUrl() == '/') {
+
+			$post = $postRepository->find($this->settings->get('homepage'));
+
+		} else {
+
+			$post = $postRepository->findOneBy([
+				'post_type' => 'post',
+				'slug' => $this->url->getUrl()
+			]);
+
+			if(!$post) {
+
+				$post = $postRepository->findOneBy([
+					'post_type' => 'page',
+					'slug' => $this->url->getUrl()
+				]);
+
+				if(!$post) {
+
+					$this->response->setResponse('404', 'Not found');
+
+					$this->setPageTemplate('404');
+				}
+			}
+
+		}
+
+		$this->post = $post;
 	}
 
 	/**
@@ -118,28 +154,23 @@ class JN_Core {
 
 		$this->template->registerFunction('jn_title', function() {
 
-			return 'Title';
-		});
-
-		// JN_Header
-
-		$this->template->registerFunction('jn_header', function() {
-
-			return '';
-		});
-
-		// JN_Footer
-
-		$this->template->registerFunction('jn_footer', function() {
-
-			return '';
+			return ((isset($this->post)) ? $this->post->title : 'Stránka nenalezena') . ' &laquo; ' . $this->settings->get('page_title');
 		});
 
 		// Get Header and footer
 
 		$this->template->resolveTemplate();
 
-		$this->template->setPageData($this->page);
+		$this->template->setPostData($this->post);
+	}
+
+	/**
+	 * Set page template
+	 */
+
+	private function setPageTemplate($name) {
+
+		$this->pageTemplate = $name;
 	}
 
 	/**
@@ -150,7 +181,7 @@ class JN_Core {
 
 		$this->response->send();
 
-		return $this->template->getPageContent('index', []);
+		return $this->template->getPageContent($this->pageTemplate);
 	}
 
 }

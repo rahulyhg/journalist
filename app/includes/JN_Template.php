@@ -86,16 +86,16 @@ class JN_Template {
 
 	}
 
-	public function setPageData($page) {
+	public function setPostData($post) {
 
-		$this->registerFunction('title', function() use($page) {
+		$this->registerFunction('title', function() use($post) {
 
-			return $page->title;
+			return $post->title;
 		});
 
-		$this->registerFunction('content', function() use($page) {
+		$this->registerFunction('content', function() use($post) {
 
-			return $page->content;
+			return $post->content;
 		});
 	}
 
@@ -111,9 +111,12 @@ class JN_Template {
 	 * @throws Twig_Error_Syntax
 	 */
 
-	public function getPageContent($file, Array $data) {
+	public function getPageContent($file) {
 
-		return $this->engine->render($file . '.twig', $data);
+		if(!file_exists(ROOT_PATH . '/app/theme/' . $file . '.twig'))
+			$file = 'index';
+
+		return $this->engine->render($file . '.twig');
 	}
 
 }

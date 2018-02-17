@@ -28,7 +28,7 @@ require __DIR__ . '/includes/JN_Core.php';
 
 $JN_Core = new JN_Core();
 
-$JN_Core->getPageData();
+$JN_Core->getPostData();
 
 $JN_Core->resolveTemplate();
 

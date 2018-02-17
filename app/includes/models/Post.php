@@ -21,6 +21,18 @@ class Post {
 	 * @Column(type="string")
 	 */
 
+	public $post_type;
+
+	/**
+	 * @Column(type="string")
+	 */
+
+	public $slug;
+
+	/**
+	 * @Column(type="string")
+	 */
+
 	public $title;
 
 	/**

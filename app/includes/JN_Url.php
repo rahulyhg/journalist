@@ -5,8 +5,6 @@ class JN_Url {
 
 	private $url;
 
-	private $urlParts;
-
 	/**
 	 * JN_Url constructor.
 	 */
@@ -20,16 +18,11 @@ class JN_Url {
 			$url = '/' . $url;
 
 		$this->url = $url;
-
-		$this->urlParts = explode('/', $this->url);
 	}
 
-	public function isAdmin() {
+	public function getUrl() {
 
-		if($this->urlParts[1] == 'admin')
-			return true;
-
-		return false;
+		return $this->url;
 	}
 
 }
